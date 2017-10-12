@@ -16,6 +16,7 @@ const fadeIn = keyframes`
 const RestRating = styled.p`
   float: right;
   display: inline-block;
+  font-weight: 100;
 `;
 
 const RestTitle = styled.p`

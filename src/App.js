@@ -18,6 +18,9 @@ const RestList = styled.ul`
 const SushiImage = styled.img`
   width: 30px;
   filter: opacity(25%);
+  @media (max-width: 420px) {
+    width: 24px;
+  }
 `;
 
 const LocationForm = styled.section`
