@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Restaurant from "./Components/Restaurant";
 import styled from "styled-components";
 import sushi from "./sushi.png";
-import geocoder from "geocoder-geojson";
+import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 
 const RestList = styled.ul`
   width: 80%;
@@ -52,25 +52,27 @@ class App extends Component {
   _handleKeyPress = e => {
     if (e.key === "Enter" && e.target.value.length > 2) {
       const text = e.target.value;
-      geocoder.google(text).then(geojson => {
-        const coords = geojson.features[0].geometry.coordinates;
-        const url = `https://developers.zomato.com/api/v2.1/search?lat=${coords[1]}&lon=${coords[0]}&radius=1000&cuisines=177&sort=real_distance`;
+      geocodeByAddress(text)
+        .then(results => getLatLng(results[0]))
+        .then(({ lat, lng }) => {
+          console.log("Success Yay", { lat, lng });
+          const url = `https://developers.zomato.com/api/v2.1/search?lat=${lat}&lon=${lng}&radius=1000&cuisines=177&sort=real_distance`;
 
-        fetch(url, {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "user-key": "d9a165d92fbd3f531f67834ac936aed9",
-            "Content-Type": "application/json"
-          }
-        })
-          .then(resp => resp.json()) // Transform the data into json
-          .then(data => {
-            console.log(data);
-            const restaurants = data.restaurants;
-            this.setState({ restaurants });
-          });
-      });
+          fetch(url, {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              "user-key": "d9a165d92fbd3f531f67834ac936aed9",
+              "Content-Type": "application/json"
+            }
+          })
+            .then(resp => resp.json()) // Transform the data into json
+            .then(data => {
+              console.log(data);
+              const restaurants = data.restaurants;
+              this.setState({ restaurants });
+            });
+        });
     }
   };
   render() {
