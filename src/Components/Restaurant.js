@@ -75,6 +75,13 @@ class Restaurant extends Component {
       };
     });
   };
+  price(num) {
+    let dollarSign = "";
+    for (let i = 0; i < num; i++) {
+      dollarSign = dollarSign + "$";
+    }
+    return dollarSign;
+  }
   childOnClick = e => {
     e.stopPropagation();
   };
@@ -85,7 +92,8 @@ class Restaurant extends Component {
         <RestBox>
           <RestTitle> {location.name}</RestTitle>
           <RestRating>
-            Price level: {location.price_range} - Rating: {location.user_rating.aggregate_rating}
+            {this.price(location.price_range)} - {location.user_rating.aggregate_rating}{" "}
+            <span style={{ color: "#e6af05" }}>☆</span>
           </RestRating>
         </RestBox>
         {this.state.expand && (

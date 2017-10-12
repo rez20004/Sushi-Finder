@@ -10,6 +10,9 @@ const RestList = styled.ul`
   max-width: 800px;
   min-width: 250px;
   padding: 0;
+  @media (max-width: 420px) {
+    width: 90%;
+  }
 `;
 
 const SushiImage = styled.img`
